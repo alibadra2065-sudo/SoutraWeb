@@ -1,0 +1,896 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SoutraWeb — Un site web pro pour votre business en 5 minutes</title>
+<meta name="description" content="Un site web professionnel et une carte de visite numérique pour votre business en Afrique, en 5 minutes, payable par mobile money.">
+<style>
+/* SoutraWeb — design system. 100% local, aucune police/CDN externe. */
+:root{
+  --green:#0B3B2E; --green2:#125541; --mint:#E8F5EE; --gold:#F5B700; --gold-d:#C28E00;
+  --cream:#FFF9EE; --ink:#12211B; --muted:#5E6F67; --line:#E2EAE5; --white:#fff;
+  --red:#D64545; --blue:#2563EB; --shadow:0 10px 30px rgba(11,59,46,.10);
+  --r:18px; --font: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--font);color:var(--ink);background:var(--white);-webkit-font-smoothing:antialiased;line-height:1.55}
+a{color:inherit;text-decoration:none}
+img{max-width:100%;display:block}
+button,input,select,textarea{font-family:inherit;font-size:inherit}
+.wrap{width:min(1120px,92vw);margin:auto}
+.narrow{width:min(760px,92vw);margin:auto}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;cursor:pointer;
+  padding:13px 20px;border-radius:12px;font-weight:700;transition:.18s ease;white-space:nowrap}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--gold);color:#241B00;box-shadow:0 6px 18px rgba(245,183,0,.32)}
+.btn-dark{background:var(--green);color:#fff}
+.btn-ghost{background:#fff;color:var(--green);border:1.5px solid var(--line)}
+.btn-danger{background:#FDECEC;color:var(--red)}
+.btn-sm{padding:9px 13px;font-size:13px;border-radius:10px}
+.btn-block{width:100%}
+.tag{display:inline-block;padding:5px 11px;border-radius:999px;background:var(--mint);color:var(--green2);font-size:12px;font-weight:800;letter-spacing:.03em}
+.h1{font-size:clamp(32px,5.4vw,58px);line-height:1.08;letter-spacing:-.03em;margin:0 0 18px;font-weight:800}
+.h2{font-size:clamp(24px,3.4vw,38px);line-height:1.15;letter-spacing:-.02em;margin:0 0 12px;font-weight:800}
+.lead{font-size:clamp(16px,1.7vw,19px);color:var(--muted);margin:0 0 26px}
+section{padding:74px 0}
+.grid{display:grid;gap:20px}
+.g3{grid-template-columns:repeat(3,1fr)}
+.g2{grid-template-columns:repeat(2,1fr)}
+.card{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:24px;box-shadow:var(--shadow)}
+.topbar{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;height:68px;gap:14px}
+.logo{display:flex;align-items:center;gap:10px;font-weight:850;font-size:19px;letter-spacing:-.03em;color:var(--green)}
+.logo .mark{width:32px;height:32px;border-radius:9px;background:var(--green);color:var(--gold);display:grid;place-items:center;font-size:17px}
+.navlinks{display:flex;gap:20px;align-items:center;font-size:14px;font-weight:600;color:var(--muted)}
+.navlinks a:hover{color:var(--green)}
+.hero{background:radial-gradient(1000px 500px at 80% -10%,#FFF0C2 0%,transparent 60%),linear-gradient(180deg,#fffbf3,#fff);
+  padding:78px 0 70px;overflow:hidden}
+.hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:46px;align-items:center}
+.phone{width:min(300px,78vw);margin:auto;background:#fff;border:9px solid #12211B;border-radius:36px;
+  box-shadow:0 30px 70px rgba(11,59,46,.28);overflow:hidden;position:relative}
+.phone-inner{height:470px;overflow:hidden;background:#F7FAF8}
+.phone iframe{border:0;width:100%;height:100%;pointer-events:none;transform-origin:top left}
+.trust{display:flex;gap:22px;flex-wrap:wrap;margin-top:26px;font-size:13px;color:var(--muted);font-weight:600}
+.trust b{color:var(--green);font-size:18px;display:block}
+.num{width:38px;height:38px;border-radius:11px;background:var(--green);color:var(--gold);display:grid;place-items:center;font-weight:800;margin-bottom:14px}
+.price-card{position:relative;border:2px solid var(--line)}
+.price-card.hot{border-color:var(--gold);box-shadow:0 18px 44px rgba(245,183,0,.18)}
+.price-big{font-size:40px;font-weight:850;letter-spacing:-.04em;color:var(--green)}
+.price-big small{font-size:14px;font-weight:600;color:var(--muted);letter-spacing:0}
+.price-card ul{list-style:none;padding:0;margin:20px 0 24px}
+.price-card li{padding:7px 0 7px 26px;position:relative;font-size:14.5px;color:#33463D}
+.price-card li:before{content:"✓";position:absolute;left:0;color:var(--green2);font-weight:900}
+.badge-pop{position:absolute;top:-13px;right:18px;background:var(--gold);color:#241B00;font-size:11px;font-weight:900;padding:6px 12px;border-radius:999px}
+.demo-card{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:#fff;box-shadow:var(--shadow);transition:.2s}
+.demo-card:hover{transform:translateY(-5px);box-shadow:0 20px 40px rgba(11,59,46,.16)}
+.demo-thumb{height:132px;display:grid;place-items:center;font-size:46px;color:#fff}
+footer{background:var(--green);color:#CFE3D8;padding:54px 0 26px;font-size:14px}
+footer a{color:#fff}
+footer .cols{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:30px;margin-bottom:36px}
+.pay-pill{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);
+  padding:8px 12px;border-radius:10px;margin:5px 6px 0 0;font-size:13px;font-weight:700;color:#fff}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{display:block;font-size:13px;font-weight:750;color:#2B4237;margin:0 0 6px}
+input,select,textarea{width:100%;padding:12px 13px;border:1.5px solid var(--line);border-radius:11px;background:#fff;
+  color:var(--ink);outline:none;transition:.15s}
+input:focus,select:focus,textarea:focus{border-color:var(--green2);box-shadow:0 0 0 3px rgba(18,85,65,.09)}
+textarea{resize:vertical;min-height:90px}
+.field{margin-bottom:15px}
+.hint{font-size:12px;color:var(--muted);margin-top:5px}
+.alert{padding:13px 15px;border-radius:12px;font-size:14px;margin:12px 0}
+.alert-ok{background:#E9F8EF;color:#14653B;border:1px solid #BCE7CF}
+.alert-err{background:#FDECEC;color:#9B2C2C;border:1px solid #F5C6C6}
+.alert-warn{background:#FFF6DA;color:#7A5A00;border:1px solid #F2DF9C}
+.tablewrap{overflow-x:auto;background:#fff;border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:660px}
+th{background:#F7FAF8;text-align:left;padding:13px 15px;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--muted)}
+td{padding:13px 15px;border-top:1px solid var(--line);vertical-align:middle}
+tr:hover td{background:#FCFDFC}
+.pill{padding:4px 10px;border-radius:999px;font-size:11.5px;font-weight:800;display:inline-block}
+.pill-ok{background:#E4F6EC;color:#14653B}
+.pill-wait{background:#FFF4D6;color:#8A6400}
+.pill-off{background:#FDECEC;color:#A63030}
+.kpi{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}
+.kpi .v{font-size:30px;font-weight:850;letter-spacing:-.04em;color:var(--green);line-height:1.1}
+.kpi .l{font-size:12.5px;color:var(--muted);font-weight:650;margin-top:6px}
+.bar-row{display:flex;align-items:center;gap:10px;font-size:12.5px;margin:6px 0;color:var(--muted)}
+.bar{height:9px;border-radius:9px;background:var(--gold);min-width:3px}
+.bar-bg{flex:1;background:#F0F4F1;border-radius:9px;overflow:hidden}
+.accordion{border:1px solid var(--line);border-radius:14px;padding:0 18px;margin-bottom:10px;background:#fff}
+.accordion summary{cursor:pointer;padding:17px 0;font-weight:750;list-style:none}
+.accordion summary::-webkit-details-marker{display:none}
+.accordion summary:after{content:"+";float:right;color:var(--green);font-size:20px;line-height:1}
+.accordion[open] summary:after{content:"−"}
+.accordion p{margin:0 0 17px;color:var(--muted);font-size:14.5px}
+.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:12.5px}
+.copy{cursor:pointer;border:1px dashed var(--line);background:#F7FAF8;padding:8px 11px;border-radius:9px;word-break:break-all}
+.hidden{display:none!important}
+.spin{width:18px;height:18px;border:2.5px solid rgba(11,59,46,.2);border-top-color:var(--green);border-radius:50%;animation:sp .7s linear infinite;display:inline-block}
+@keyframes sp{to{transform:rotate(360deg)}}
+@media(max-width:860px){
+  .hero-grid,.g3,.g2,.form-row,footer .cols{grid-template-columns:1fr}
+  section{padding:52px 0}
+  .navlinks a:not(.btn){display:none}
+  .phone{margin-top:30px}
+}
+
+</style>
+</head>
+<body>
+
+<div class="topbar"><div class="wrap">
+  <a class="logo" href="#"><span class="mark">✦</span>SoutraWeb</a>
+  <nav class="navlinks">
+    <a href="#comment">Comment ça marche</a><a href="#exemples">Exemples</a><a href="#tarifs">Tarifs</a>
+    <a class="btn btn-dark btn-sm" href="#commander">Commander mon site</a>
+  </nav>
+</div></div>
+
+<header class="hero"><div class="wrap hero-grid">
+  <div>
+    <span class="tag">🇨🇮 Fait pour les business d'Afrique</span>
+    <h1 class="h1">Votre business mérite<br>un vrai site web.<br><span style="color:var(--gold-d)">Pas juste une page Facebook.</span></h1>
+    <p class="lead">En 5 minutes, SoutraWeb vous crée un mini-site professionnel avec vos produits, vos prix et un bouton <b>WhatsApp</b> pour recevoir les commandes. Payable par Wave, MTN Money, Moov Money ou en espèces.</p>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <a class="btn btn-primary" href="#commander">✦ Commander pour 10 000 FCFA</a>
+      <a class="btn btn-ghost" href="#exemples">Voir des exemples</a>
+    </div>
+    <div class="trust">
+      <div><b>7 jours</b>d'essai offerts</div>
+      <div><b>100 % mobile</b>pensé pour le téléphone</div>
+      <div><b>0 €</b>de commission sur vos ventes</div>
+    </div>
+  </div>
+  <div class="phone"><div class="phone-inner"><iframe srcdoc="&lt;!doctype html&gt;
+&lt;html lang=&quot;fr&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;utf-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1,viewport-fit=cover&quot;&gt;
+&lt;title&gt;Boutique Adjo Mode — Mode &amp;amp; Vêtements&lt;/title&gt;
+&lt;meta name=&quot;description&quot; content=&quot;Pagnes, boubous et tenues sur mesure à Yabayo. — Boutique Adjo Mode, Yabayo, Côte d&amp;#x27;Ivoire&quot;&gt;
+&lt;meta name=&quot;theme-color&quot; content=&quot;#7A2E52&quot;&gt;
+&lt;style&gt;
+:root{--c:#7A2E52;--soft:rgba(122,46,82,.09);--ink:#14231C;--mut:#60736A;--line:#E6EDE9;--cream:#FFFBF3}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,&quot;Segoe UI&quot;,Roboto,Arial,sans-serif;color:var(--ink);background:#F7FAF8;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}.w{max-width:560px;margin:auto;background:#fff;min-height:100vh;box-shadow:0 0 50px rgba(0,0,0,.06);padding-bottom:86px;overflow:hidden}
+.hero{background:var(--c);background:linear-gradient(155deg,var(--c),color-mix(in srgb,var(--c) 72%,#000));color:#fff;padding:34px 22px 30px;text-align:center;position:relative}
+.hero:after{content:&quot;&quot;;position:absolute;inset:0;background:radial-gradient(300px 140px at 90% 0%,rgba(255,255,255,.14),transparent);pointer-events:none}
+.cli-logo-emoji{width:82px;height:82px;margin:0 auto 14px;border-radius:24px;background:rgba(255,255,255,.16);border:1.5px solid rgba(255,255,255,.3);display:grid;place-items:center;font-size:42px;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.cli-logo-img{width:82px;height:82px;margin:0 auto 14px;border-radius:24px;object-fit:cover;background:#fff;border:3px solid rgba(255,255,255,.6)}
+.chip{display:inline-block;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.17);font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;margin-bottom:12px}
+h1{font-size:27px;line-height:1.15;margin:0 0 8px;letter-spacing:-.025em;font-weight:850}
+.tagline{opacity:.93;font-size:15px;margin:0 0 6px}.loc{font-size:12.5px;opacity:.8;margin:0 0 20px}
+.cta{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}
+.b{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:12px 16px;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer;border:0;transition:.18s}
+.b:hover{transform:translateY(-2px)}.b-wa{background:#fff;color:#0B3B2E}.b-gl{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35)}
+.sec{padding:30px 20px}.sec h2{font-size:19px;margin:0 0 4px;letter-spacing:-.02em;font-weight:850}
+.sec .sub{font-size:13px;color:var(--mut);margin:0 0 18px}
+.cli-item{display:flex;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
+.cli-item:last-child{border-bottom:0}
+.cli-item-ic{width:44px;height:44px;flex:none;border-radius:13px;background:var(--soft);display:grid;place-items:center;font-size:21px}
+.cli-item-txt{flex:1;min-width:0}.cli-item-txt b{display:block;font-size:14.5px}.cli-item-txt span{display:block;font-size:12px;color:var(--mut)}
+.cli-item-right{text-align:right;flex:none}.cli-item-right strong{display:block;font-size:14px;color:var(--c);white-space:nowrap}.cli-item-right small{font-size:9.5px;color:var(--mut)}
+.cli-order{display:inline-block;margin-top:5px;font-size:11.5px;font-weight:800;color:#fff;background:var(--c);padding:5px 10px;border-radius:8px}
+.cli-empty{font-size:13px;color:var(--mut);padding:16px;background:#F7FAF8;border-radius:12px}
+.about{background:var(--cream);border-radius:16px;padding:18px;font-size:14.5px;color:#33463D;line-height:1.7}
+.cli-test{background:#F7FAF8;border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:10px}
+.cli-stars{color:#F5B700;letter-spacing:2px;font-size:14px}.cli-test p{margin:6px 0 8px;font-size:14px;color:#33463D}.cli-test b{font-size:12px;color:var(--mut)}
+.cli-crow{display:flex;gap:11px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+.cli-crow span{width:32px;height:32px;border-radius:9px;background:var(--soft);display:grid;place-items:center;flex:none}
+.cli-crow:last-child{border-bottom:0}
+.cli-social{display:inline-block;margin:8px 8px 0 0;padding:9px 13px;border-radius:10px;background:var(--soft);color:var(--c);font-size:13px;font-weight:750}
+.qrbox{display:flex;gap:16px;align-items:center;background:var(--soft);border-radius:16px;padding:16px}
+.qrbox img{width:104px;height:104px;border-radius:10px;background:#fff;padding:6px}
+.qrbox b{font-size:14.5px;display:block;margin-bottom:4px}.qrbox p{font-size:12.5px;color:var(--mut);margin:0 0 9px}
+.mini{display:inline-block;padding:8px 11px;border-radius:9px;background:#fff;border:1px solid var(--line);font-size:12px;font-weight:750;margin:0 5px 5px 0;cursor:pointer}
+.cli-credit{display:block;text-align:center;font-size:12px;color:var(--mut);padding:18px;background:#F7FAF8}
+.cli-credit b{color:var(--c)}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;gap:8px;padding:10px max(12px,calc((100vw - 560px)/2 + 12px));background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+.bar a{flex:1;text-align:center;padding:13px;border-radius:11px;font-weight:800;font-size:14px}
+.bar .p{background:var(--c);color:#fff}.bar .s{background:var(--soft);color:var(--c);flex:0 0 46px}
+.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:#14231C;color:#fff;padding:10px 16px;border-radius:10px;font-size:13px;z-index:99;opacity:0;transition:.25s;pointer-events:none}
+.toast.on{opacity:1}
+@media(min-width:600px){.w{margin:24px auto;border-radius:24px;min-height:calc(100vh - 48px)}.bar{border-radius:0 0 24px 24px;position:sticky;bottom:0;max-width:560px;margin:auto}}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;div class=&quot;w&quot;&gt;
+  &lt;header class=&quot;hero&quot;&gt;
+    &lt;div class=&quot;cli-logo-emoji&quot;&gt;👗&lt;/div&gt;
+    &lt;div class=&quot;chip&quot;&gt;Mode &amp;amp; Vêtements&lt;/div&gt;
+    &lt;h1&gt;Boutique Adjo Mode&lt;/h1&gt;
+    &lt;p class=&quot;tagline&quot;&gt;Pagnes, boubous et tenues sur mesure à Yabayo.&lt;/p&gt;
+    &lt;p class=&quot;loc&quot;&gt;📍 Yabayo, Côte d&amp;#x27;Ivoire&lt;/p&gt;
+    &lt;div class=&quot;cta&quot;&gt;
+      &lt;a class=&quot;b b-wa&quot; href=&quot;https://wa.me/2250506293578?text=Bonjour%20Boutique%20Adjo%20Mode%20%21%20Je%20vous%20contacte%20depuis%20votre%20site%20web.&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;💬 Écrire sur WhatsApp&lt;/a&gt;
+      &lt;a class=&quot;b b-gl&quot; href=&quot;tel:+2250506293578&quot;&gt;📞 Appeler&lt;/a&gt;
+      &lt;button class=&quot;b b-gl&quot; onclick=&quot;vpShare()&quot;&gt;↗ Partager&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/header&gt;
+
+  &lt;section class=&quot;sec&quot;&gt;
+    &lt;h2&gt;Nos produits &amp; services&lt;/h2&gt;
+    &lt;p class=&quot;sub&quot;&gt;Cliquez sur « Commander » pour discuter directement sur WhatsApp.&lt;/p&gt;
+    &lt;div class=&quot;cli-item&quot;&gt;
+          &lt;div class=&quot;cli-item-ic&quot;&gt;🧣&lt;/div&gt;
+          &lt;div class=&quot;cli-item-txt&quot;&gt;&lt;b&gt;Pagne wax 6 yards&lt;/b&gt;&lt;span&gt;Motifs variés, qualité garantie&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;cli-item-right&quot;&gt;&lt;strong&gt;5 000 &lt;small&gt;FCFA&lt;/small&gt;&lt;/strong&gt;
+          &lt;a class=&quot;cli-order&quot; href=&quot;https://wa.me/2250506293578?text=Bonjour%20Boutique%20Adjo%20Mode%20%21%20Je%20souhaite%20commander%20%3A%20Pagne%20wax%206%20yards%20%285%20000%20FCFA%29.&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Commander&lt;/a&gt;&lt;/div&gt;
+        &lt;/div&gt;&lt;div class=&quot;cli-item&quot;&gt;
+          &lt;div class=&quot;cli-item-ic&quot;&gt;👘&lt;/div&gt;
+          &lt;div class=&quot;cli-item-txt&quot;&gt;&lt;b&gt;Boubou brodé&lt;/b&gt;&lt;span&gt;Toutes tailles, plusieurs couleurs&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;cli-item-right&quot;&gt;&lt;strong&gt;15 000 &lt;small&gt;FCFA&lt;/small&gt;&lt;/strong&gt;
+          &lt;a class=&quot;cli-order&quot; href=&quot;https://wa.me/2250506293578?text=Bonjour%20Boutique%20Adjo%20Mode%20%21%20Je%20souhaite%20commander%20%3A%20Boubou%20brod%C3%A9%20%2815%20000%20FCFA%29.&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Commander&lt;/a&gt;&lt;/div&gt;
+        &lt;/div&gt;&lt;div class=&quot;cli-item&quot;&gt;
+          &lt;div class=&quot;cli-item-ic&quot;&gt;👗&lt;/div&gt;
+          &lt;div class=&quot;cli-item-txt&quot;&gt;&lt;b&gt;Ensemble complet&lt;/b&gt;&lt;span&gt;Haut + bas + finitions&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;cli-item-right&quot;&gt;&lt;strong&gt;25 000 &lt;small&gt;FCFA&lt;/small&gt;&lt;/strong&gt;
+          &lt;a class=&quot;cli-order&quot; href=&quot;https://wa.me/2250506293578?text=Bonjour%20Boutique%20Adjo%20Mode%20%21%20Je%20souhaite%20commander%20%3A%20Ensemble%20complet%20%2825%20000%20FCFA%29.&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Commander&lt;/a&gt;&lt;/div&gt;
+        &lt;/div&gt;&lt;div class=&quot;cli-item&quot;&gt;
+          &lt;div class=&quot;cli-item-ic&quot;&gt;✂️&lt;/div&gt;
+          &lt;div class=&quot;cli-item-txt&quot;&gt;&lt;b&gt;Retouche / ourlet&lt;/b&gt;&lt;span&gt;Prêt en 24 h&lt;/span&gt;&lt;/div&gt;
+          &lt;div class=&quot;cli-item-right&quot;&gt;&lt;strong&gt;2 000 &lt;small&gt;FCFA&lt;/small&gt;&lt;/strong&gt;
+          &lt;a class=&quot;cli-order&quot; href=&quot;https://wa.me/2250506293578?text=Bonjour%20Boutique%20Adjo%20Mode%20%21%20Je%20souhaite%20commander%20%3A%20Retouche%20/%20ourlet%20%282%20000%20FCFA%29.&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;Commander&lt;/a&gt;&lt;/div&gt;
+        &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class=&quot;sec&quot; style=&quot;padding-top:4px&quot;&gt;
+    &lt;h2&gt;À propos&lt;/h2&gt;
+    &lt;p class=&quot;sub&quot;&gt;Faites connaissance avec nous&lt;/p&gt;
+    &lt;div class=&quot;about&quot;&gt;Boutique de mode installée à Yabayo : pagnes wax, boubous brodés, ensembles complets et retouches. Nous livrons aussi dans les villages voisins.&lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class=&quot;sec&quot; style=&quot;padding-top:4px&quot;&gt;&lt;h2&gt;Ils nous font confiance&lt;/h2&gt;&lt;p class=&quot;sub&quot;&gt;Avis de nos clients&lt;/p&gt;&lt;div class=&quot;cli-test&quot;&gt;&lt;div class=&quot;cli-stars&quot;&gt;★★★★★&lt;/div&gt;&lt;p&gt;« Très beaux pagnes et la couturière est rapide. Je recommande ! »&lt;/p&gt;&lt;b&gt;— Adjoua K.&lt;/b&gt;&lt;/div&gt;&lt;div class=&quot;cli-test&quot;&gt;&lt;div class=&quot;cli-stars&quot;&gt;★★★★★&lt;/div&gt;&lt;p&gt;« J&amp;#x27;ai commandé mon boubou pour la fête, il était parfait. »&lt;/p&gt;&lt;b&gt;— Marie Y.&lt;/b&gt;&lt;/div&gt;&lt;/section&gt;
+  &lt;section class=&quot;sec&quot;&gt;
+    &lt;h2&gt;Nous contacter&lt;/h2&gt;
+    &lt;p class=&quot;sub&quot;&gt;Nous sommes à votre disposition&lt;/p&gt;
+    &lt;a class=&quot;cli-crow&quot; href=&quot;tel:+2250506293578&quot;&gt;&lt;span&gt;📞&lt;/span&gt;+225 05 06 29 35 78&lt;/a&gt;&lt;div class=&quot;cli-crow&quot;&gt;&lt;span&gt;🕐&lt;/span&gt;Lun–Sam : 8h – 19h · Dim : 10h – 15h&lt;/div&gt;&lt;a class=&quot;cli-crow&quot; href=&quot;#&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;&lt;span&gt;📍&lt;/span&gt;Carrefour du marché, Yabayo&lt;/a&gt;
+    &lt;div&gt;&lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;section class=&quot;sec&quot; style=&quot;padding-top:0&quot;&gt;
+    &lt;div class=&quot;qrbox&quot;&gt;
+      &lt;img src=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOcAAADnAQMAAADfOtNjAAAABlBMVEV6LlL///8Qlec2AAABgElEQVR42u1ZMZKEMAxzjoKSJ/CUPI08jafwBEqKHbyWYu6u2hoxm8aTUGlsybIx/3BO+369xdeX4RT33WrcbYpnPtly/tinc8+vgWgEtIKwWnkFonUpeFp1Ee2RjkC0z97OwfvNbNZHhKz0GnwGouDRDF7Fqa6OiDzyA1DO4Zh4k+ZR1zrwaF0yaGtdnhC5zQLK+F/btdWbzHGPqgsRzxoUzdGBcBoE4tIJBllEWW5oRLUhzNlvhasOGBzqvV6s0kYUzNlqg/2JEMXnuKmrdyQH9ofKwOIrnU7KVdcul0D1bp4OQrYfbdU9fR3pRJ0QdkHQOsxHAEYXRIEQzlEfjFIS7M+pCvOIBOIMa0tvtIurT3zz5euuW9o74fmoevLIgkcbnpXV+9d7G0UOLg+j7CSco9wFHb0f0eWxO6lPEzBDOR9h3TBSy8X3DH27xaECwDZT35yw6vCC4hsesK/rFjWrrjtxf8AuqKWIF9f2dX0XxKxwz5Baruy9v/81bv31DXgrApbhH5i/AAAAAElFTkSuQmCC&quot; alt=&quot;QR code&quot;&gt;
+      &lt;div&gt;
+        &lt;b&gt;Notre carte de visite numérique&lt;/b&gt;
+        &lt;p&gt;Scannez ce QR code pour ouvrir notre site et garder notre contact.&lt;/p&gt;
+        &lt;a class=&quot;mini&quot; href=&quot;data:text/vcard;charset=utf-8,BEGIN%3AVCARD%0AVERSION%3A3.0%0AFN%3ABoutique%20Adjo%20Mode%0AORG%3ABoutique%20Adjo%20Mode%0ATEL%3BTYPE%3DWORK%2CVOICE%3A%2B225%2005%2006%2029%2035%2078%0ANOTE%3APagnes%2C%20boubous%20et%20tenues%20sur%20mesure%20%C3%A0%20Yabayo.%0AADR%3BTYPE%3DWORK%3A%3B%3BCarrefour%20du%20march%C3%A9%2C%20Yabayo%3BYabayo%2C%20C%C3%B4te%20d%27Ivoire%3B%3B%3B%0AURL%3Ahttp%3A%2F%2F127.0.0.1%3A8000%2Fv%2Fadjo-mode%0AEND%3AVCARD%0A&quot;&gt;⬇ Ajouter aux contacts&lt;/a&gt;
+        &lt;a class=&quot;mini&quot; href=&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOcAAADnAQMAAADfOtNjAAAABlBMVEV6LlL///8Qlec2AAABgElEQVR42u1ZMZKEMAxzjoKSJ/CUPI08jafwBEqKHbyWYu6u2hoxm8aTUGlsybIx/3BO+369xdeX4RT33WrcbYpnPtly/tinc8+vgWgEtIKwWnkFonUpeFp1Ee2RjkC0z97OwfvNbNZHhKz0GnwGouDRDF7Fqa6OiDzyA1DO4Zh4k+ZR1zrwaF0yaGtdnhC5zQLK+F/btdWbzHGPqgsRzxoUzdGBcBoE4tIJBllEWW5oRLUhzNlvhasOGBzqvV6s0kYUzNlqg/2JEMXnuKmrdyQH9ofKwOIrnU7KVdcul0D1bp4OQrYfbdU9fR3pRJ0QdkHQOsxHAEYXRIEQzlEfjFIS7M+pCvOIBOIMa0tvtIurT3zz5euuW9o74fmoevLIgkcbnpXV+9d7G0UOLg+j7CSco9wFHb0f0eWxO6lPEzBDOR9h3TBSy8X3DH27xaECwDZT35yw6vCC4hsesK/rFjWrrjtxf8AuqKWIF9f2dX0XxKxwz5Baruy9v/81bv31DXgrApbhH5i/AAAAAElFTkSuQmCC&quot; download=&quot;qr-adjo-mode.png&quot;&gt;▦ Télécharger le QR&lt;/a&gt;
+        &lt;button class=&quot;mini&quot; onclick=&quot;vpCopy()&quot;&gt;⧉ Copier le lien&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;a class=&quot;cli-credit&quot; href=&quot;#&quot; onclick=&quot;parent.vpClose();return false;&quot;&gt;Site créé par &lt;b&gt;SoutraWeb&lt;/b&gt; ✦ Créez le vôtre&lt;/a&gt;
+  &lt;div class=&quot;bar&quot;&gt;
+    &lt;a class=&quot;p&quot; href=&quot;https://wa.me/2250506293578?text=Bonjour%20Boutique%20Adjo%20Mode%20%21%20Je%20vous%20contacte%20depuis%20votre%20site%20web.&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;💬 Commander sur WhatsApp&lt;/a&gt;
+    &lt;a class=&quot;s&quot; href=&quot;tel:+2250506293578&quot;&gt;📞&lt;/a&gt;
+  &lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;toast&quot; id=&quot;toast&quot;&gt;Lien copié ✓&lt;/div&gt;
+&lt;script&gt;
+function vpToast(m){var t=document.getElementById(&#x27;toast&#x27;);t.textContent=m;t.classList.add(&#x27;on&#x27;);setTimeout(function(){t.classList.remove(&#x27;on&#x27;)},1800)}
+function vpCopy(){var u=location.href;if(navigator.clipboard){navigator.clipboard.writeText(u).then(function(){vpToast(&#x27;Lien copié ✓&#x27;)},function(){vpToast(u)})}else{vpToast(u)}}
+function vpShare(){if(navigator.share){navigator.share({title:document.title,text:&#x27;Découvrez Boutique Adjo Mode&#x27;,url:location.href}).catch(function(){})}else{vpCopy()}}
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+" title="Aperçu d'un site client" scrolling="no"></iframe></div></div>
+</div></header>
+
+<section id="comment" style="background:#F7FAF8"><div class="wrap">
+  <div class="narrow" style="text-align:center;margin-bottom:40px">
+    <span class="tag">Le problème</span>
+    <h2 class="h2">Vos clients sont sur leur téléphone. Vous, vous êtes introuvable.</h2>
+    <p class="lead">Quand quelqu'un cherche « coiffeuse près de moi » ou veut vérifier vos prix, il ne trouve qu'un numéro perdu dans une conversation WhatsApp. Résultat : il va chez le concurrent.</p>
+  </div>
+  <div class="grid g3">
+    <div class="card"><div class="num">1</div><h3 style="margin:0 0 8px">Vous commandez</h3><p style="color:var(--muted);font-size:14.5px;margin:0">Remplissez le formulaire en 2 minutes avec le nom, les produits et les prix de votre business. Pas besoin d'ordinateur.</p></div>
+    <div class="card"><div class="num">2</div><h3 style="margin:0 0 8px">On vous livre</h3><p style="color:var(--muted);font-size:14.5px;margin:0">Votre site est prêt : un lien à partager partout, un QR code à imprimer et une carte de visite numérique.</p></div>
+    <div class="card"><div class="num">3</div><h3 style="margin:0 0 8px">Vous recevez des commandes</h3><p style="color:var(--muted);font-size:14.5px;margin:0">Chaque produit a son bouton « Commander » qui ouvre WhatsApp avec le message déjà écrit. Vous ne perdez plus de client.</p></div>
+  </div>
+</div></section>
+
+<section id="exemples"><div class="wrap">
+  <div style="display:flex;justify-content:space-between;align-items:end;gap:20px;flex-wrap:wrap;margin-bottom:30px">
+    <div><span class="tag">Portfolio</span><h2 class="h2" style="margin:10px 0 0">Des vrais sites, prêts à vendre</h2></div>
+    <a class="btn btn-ghost btn-sm" href="#" onclick="vpOpen('adjo-mode');return false;" >Ouvrir un exemple ↗</a>
+  </div>
+  <div class="grid g3"><a class="demo-card" href="#" onclick="vpOpen('adjo-mode');return false;" >
+                  <div class="demo-thumb" style="background:#7A2E52">👗</div>
+                  <div style="padding:16px"><span class="tag">Mode &amp; Vêtements</span>
+                  <h3 style="margin:10px 0 4px;font-size:17px">Boutique Adjo Mode</h3>
+                  <div style="font-size:13px;color:var(--muted)">Yabayo, Côte d&#x27;Ivoire · Voir le site →</div></div></a><a class="demo-card" href="#" onclick="vpOpen('maquis-koffi');return false;" >
+                  <div class="demo-thumb" style="background:#B34A12">🍲</div>
+                  <div style="padding:16px"><span class="tag">Restauration</span>
+                  <h3 style="margin:10px 0 4px;font-size:17px">Maquis Chez Koffi</h3>
+                  <div style="font-size:13px;color:var(--muted)">Yabayo, Côte d&#x27;Ivoire · Voir le site →</div></div></a><a class="demo-card" href="#" onclick="vpOpen('atelier-yao');return false;" >
+                  <div class="demo-thumb" style="background:#1B4A6B">🧵</div>
+                  <div style="padding:16px"><span class="tag">Artisanat &amp; Services</span>
+                  <h3 style="margin:10px 0 4px;font-size:17px">Atelier Yao Couture</h3>
+                  <div style="font-size:13px;color:var(--muted)">Yabayo, Côte d&#x27;Ivoire · Voir le site →</div></div></a></div>
+  <p style="text-align:center;color:var(--muted);font-size:13.5px;margin-top:20px">Chaque site s'adapte à tous les téléphones, même avec une connexion 3G lente.</p>
+</div></section>
+
+<section id="tarifs" style="background:#F7FAF8"><div class="wrap">
+  <div class="narrow" style="text-align:center;margin-bottom:44px">
+    <span class="tag">Tarifs simples</span><h2 class="h2">Moins cher qu'une publicité Facebook</h2>
+    <p class="lead">Un paiement unique pour la création, puis un petit abonnement pour l'hébergement et les modifications. Sans engagement, sans carte bancaire.</p>
+  </div>
+  <div class="grid g2" style="max-width:800px;margin:auto">
+    <div class="card price-card">
+      <h3 style="font-size:20px;margin:0 0 4px">Essentiel</h3>
+      <div style="color:var(--muted);font-size:13.5px">Pour se lancer proprement</div>
+      <div class="price-big" style="margin-top:16px">10 000 FCFA <small>création</small></div>
+      <div style="font-size:13.5px;color:var(--muted)">puis 3 000 FCFA / mois d'hébergement</div>
+      <ul>
+        <li>Mini-site mobile professionnel</li><li>Jusqu'à 6 produits avec prix</li>
+        <li>Bouton WhatsApp sur chaque produit</li><li>QR code + carte de visite numérique</li>
+        <li>Lien personnalisé à partager</li><li>Modifications incluses</li>
+      </ul>
+      <a class="btn btn-ghost btn-block" href="#commander">Choisir Essentiel</a>
+    </div>
+    <div class="card price-card hot">
+      <div class="badge-pop">LE PLUS CHOISI</div>
+      <h3 style="font-size:20px;margin:0 0 4px">Pro</h3>
+      <div style="color:var(--muted);font-size:13.5px">Pour les business qui veulent grandir</div>
+      <div class="price-big" style="margin-top:16px">25 000 FCFA <small>création</small></div>
+      <div style="font-size:13.5px;color:var(--muted)">puis 6 000 FCFA / mois d'hébergement</div>
+      <ul>
+        <li><b>Tout Essentiel, plus :</b></li>
+        <li>Produits illimités + avis clients</li><li>Nom de domaine personnalisé (option)</li>
+        <li>Couleurs et logo à votre image</li><li>Statistiques de visites</li>
+        <li>Support WhatsApp prioritaire</li><li>QR code imprimable HD</li>
+      </ul>
+      <a class="btn btn-primary btn-block" href="#commander">Choisir Pro</a>
+    </div>
+  </div>
+  <div style="max-width:800px;margin:26px auto 0;padding:20px;border:1px dashed var(--gold-d);border-radius:16px;background:#FFFDF6;text-align:center">
+    <b>💡 Offre de lancement :</b> 7 jours d'essai offerts. Vous ne payez que si le site vous plaît.
+  </div>
+</div></section>
+
+<section id="commander"><div class="wrap"><div class="grid g2" style="align-items:start">
+  <div>
+    <span class="tag">Commander</span>
+    <h2 class="h2" style="margin-top:12px">Racontez-nous votre business</h2>
+    <p class="lead">On vous répond sur WhatsApp avec un aperçu de votre site, généralement dans la journée.</p>
+    <div class="card" style="box-shadow:none;background:#F7FAF8">
+      <h3 style="margin:0 0 12px;font-size:16px">💳 Payer après validation</h3>
+      <span class="pay-pill"><span style="width:9px;height:9px;border-radius:50%;background:#5A31F4"></span>Wave : <b>+225 05 06 29 35 78</b></span><span class="pay-pill"><span style="width:9px;height:9px;border-radius:50%;background:#FFCC00"></span>MTN Money : <b>+225 05 06 29 35 78</b></span><span class="pay-pill"><span style="width:9px;height:9px;border-radius:50%;background:#0A7B4F"></span>Moov Money : <b>+225 01 61 65 11 66</b></span><span class="pay-pill"><span style="width:9px;height:9px;border-radius:50%;background:#B34A12"></span>Espèces / rendez-vous : <b>Yabayo, Côte d&#x27;Ivoire</b></span>
+      <p style="font-size:13px;color:var(--muted);margin:14px 0 0">Pas de carte bancaire, pas de compte à créer. Vous envoyez le paiement sur le numéro de votre choix, et on active votre site.</p>
+    </div>
+    <div class="card" style="box-shadow:none;margin-top:16px">
+      <h3 style="margin:0 0 8px;font-size:16px">📞 Une question ?</h3>
+      <p style="margin:0 0 12px;color:var(--muted);font-size:14px">Écrivez-nous directement, on répond vite.</p>
+      <a class="btn btn-dark btn-sm" href="https://wa.me/2250506293578?text=Bonjour%20SoutraWeb%20%21%20Je%20veux%20un%20site%20web%20pour%20mon%20business." target="_blank" rel="noopener">💬 +225 05 06 29 35 78</a>
+      <a class="btn btn-ghost btn-sm" href="https://wa.me/2250506293578?text=Bonjour%20SoutraWeb%20%21">💬 Discuter</a>
+    </div>
+  </div>
+  <div class="card" style="padding:28px">
+    
+    <div id="form-wrap">
+      <form id="order-form">
+        <div class="form-row">
+          <div class="field"><label>Nom du business *</label><input name="business_name" required placeholder="Ex : Salon Aïcha Coiffure"></div>
+          <div class="field"><label>Votre nom</label><input name="contact_name" placeholder="Ex : Aïcha K."></div>
+        </div>
+        <div class="form-row">
+          <div class="field"><label>Téléphone / WhatsApp *</label><input name="phone" required placeholder="+225 07 00 00 00 00"></div>
+          <div class="field"><label>Ville / quartier</label><input name="city" placeholder="Abidjan, Cocody"></div>
+        </div>
+        <div class="field"><label>Secteur d'activité</label>
+          <select name="category"><option>Commerce & Boutique</option><option>Beauté & Coiffure</option><option>Restaurant & Alimentation</option><option>Mode & Vêtements</option><option>Automobile & Garage</option><option>Artisanat & Services</option><option>Santé & Bien-être</option><option>Éducation & Formation</option><option>Immobilier</option><option>Autre</option></select>
+        </div>
+        <div class="field"><label>Vos produits / services (facultatif)</label><textarea name="message" placeholder="Ex : tresses 8 000 FCFA, wigs 35 000 FCFA, soin 5 000 FCFA..."></textarea></div>
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;opacity:0;height:0">
+        <button class="btn btn-primary btn-block" type="submit" id="submit-btn">✦ Envoyer ma demande</button>
+        <p class="hint" style="text-align:center">Gratuit et sans engagement. Vos infos restent privées.</p>
+      </form>
+      <div id="form-ok" class="hidden">
+        <div style="font-size:44px;text-align:center">🎉</div>
+        <h3 style="text-align:center;margin:8px 0">Demande reçue !</h3>
+        <p style="text-align:center;color:var(--muted)">On prépare votre aperçu. Pour aller plus vite, envoyez-nous un message WhatsApp maintenant.</p>
+        <a class="btn btn-dark btn-block" id="wa-after" href="https://wa.me/2250506293578?text=Bonjour%20SoutraWeb%20%21%20Je%20veux%20un%20site%20web%20pour%20mon%20business." target="_blank" rel="noopener">💬 Confirmer sur WhatsApp</a>
+        <button class="btn btn-ghost btn-block" style="margin-top:9px" onclick="document.getElementById('form-ok').classList.add('hidden');document.getElementById('order-form').classList.remove('hidden');document.getElementById('order-form').reset()">Faire une autre demande</button>
+      </div>
+    </div>
+  </div>
+</div></div></section>
+
+<section id="faq" style="background:#F7FAF8"><div class="wrap narrow">
+  <div style="text-align:center;margin-bottom:30px"><span class="tag">Questions fréquentes</span><h2 class="h2" style="margin-top:12px">On vous répond</h2></div>
+  <details class="accordion"><summary>Est-ce que j'ai besoin d'un ordinateur ?</summary><p>Non. Tout se passe sur votre téléphone. Vous nous envoyez vos infos sur WhatsApp, on crée le site, et vous recevez un simple lien à partager.</p></details>
+  <details class="accordion"><summary>Est-ce que mes clients doivent installer une application ?</summary><p>Absolument pas. Votre site s'ouvre dans n'importe quel navigateur (WhatsApp, Chrome, Safari). Il est léger et rapide, même en 3G.</p></details>
+  <details class="accordion"><summary>Comment je reçois mes commandes ?</summary><p>Chaque produit a un bouton « Commander » qui ouvre WhatsApp avec un message déjà rédigé. Le client vous écrit directement. Vous gardez 100 % de vos ventes, sans commission.</p></details>
+  <details class="accordion"><summary>Je peux modifier mes prix plus tard ?</summary><p>Oui, les modifications sont incluses. Vous nous écrivez sur WhatsApp et on met à jour votre site gratuitement.</p></details>
+  <details class="accordion"><summary>Comment je paye ?</summary><p>Par Wave, MTN Money, Moov Money ou en espèces à Yabayo. Vous payez seulement après avoir vu et validé votre site.</p></details>
+  <details class="accordion"><summary>Le QR code sert à quoi ?</summary><p>À imprimer sur vos cartes de visite, affiches, emballages ou devanture. Quand un client le scanne avec l'appareil photo de son téléphone, votre site s'ouvre instantanément.</p></details>
+</div></section>
+
+<footer><div class="wrap">
+  <div class="cols">
+    <div><div class="logo" style="color:#fff;margin-bottom:10px"><span class="mark">✦</span>SoutraWeb</div>
+      <p style="max-width:300px;line-height:1.7">Un site web pro pour votre business en 5 minutes. Une solution créée en Afrique, pour les entrepreneurs africains.</p>
+      <a class="btn btn-primary btn-sm" href="https://wa.me/2250506293578?text=Bonjour%20SoutraWeb%20%21%20Je%20veux%20un%20site%20web%20pour%20mon%20business." target="_blank" rel="noopener">💬 +225 05 06 29 35 78</a>
+    </div>
+    <div><b style="color:#fff;display:block;margin-bottom:12px">Navigation</b>
+      <div style="display:grid;gap:8px"><a href="#comment">Comment ça marche</a><a href="#exemples">Exemples</a><a href="#tarifs">Tarifs</a><a href="#faq">FAQ</a><a href="#commander">Commander</a></div>
+    </div>
+    <div><b style="color:#fff;display:block;margin-bottom:12px">Paiement accepté</b>
+      <span class="pay-pill"><span style="width:9px;height:9px;border-radius:50%;background:#5A31F4"></span>Wave : <b>+225 05 06 29 35 78</b></span><span class="pay-pill"><span style="width:9px;height:9px;border-radius:50%;background:#FFCC00"></span>MTN Money : <b>+225 05 06 29 35 78</b></span><span class="pay-pill"><span style="width:9px;height:9px;border-radius:50%;background:#0A7B4F"></span>Moov Money : <b>+225 01 61 65 11 66</b></span><span class="pay-pill"><span style="width:9px;height:9px;border-radius:50%;background:#B34A12"></span>Espèces / rendez-vous : <b>Yabayo, Côte d&#x27;Ivoire</b></span>
+      <p style="margin-top:14px;font-size:12.5px">Pas de carte bancaire. Pas d'abonnement caché. Pas de commission sur vos ventes.</p>
+    </div>
+  </div>
+  <div style="border-top:1px solid rgba(255,255,255,.15);padding-top:20px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:12.5px">
+    <span>© 2026 SoutraWeb · soutraweb.ci · Côte d&amp;#x27;Ivoire</span><a href="https://wa.me/2250506293578?text=Bonjour%20SoutraWeb%20%21">Nous écrire →</a>
+  </div>
+</div></footer>
+<!-- Vitrine statique SoutraWeb -->
+
+<script>
+/* Version statique : la commande part directement sur WhatsApp (aucun serveur nécessaire). */
+document.getElementById('order-form').addEventListener('submit',function(e){
+  e.preventDefault();
+  var d={}; new FormData(e.target).forEach(function(v,k){d[k]=v});
+  var txt="Bonjour ! Je veux un site web pour mon business. Voici mes infos :" + "
+
+Business : "+(d.business_name||"-")+"
+Contact : "+(d.contact_name||"-")+
+    "
+Téléphone : "+(d.phone||"-")+"
+Ville : "+(d.city||"-")+"
+Secteur : "+(d.category||"-")+
+    "
+Produits : "+(d.message||"-");
+  document.getElementById('order-form').classList.add('hidden');
+  document.getElementById('form-ok').classList.remove('hidden');
+  document.getElementById('wa-after').href="https://wa.me/2250506293578?text="+encodeURIComponent(txt);
+  window.open(document.getElementById('wa-after').href,'_blank');
+});
+</script>
+
+<!-- ===== Aperçus des sites clients (100% embarqués, aucune donnée privée) ===== -->
+<template id="demo-adjo-mode"><!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Boutique Adjo Mode — Mode &amp; Vêtements</title>
+<meta name="description" content="Pagnes, boubous et tenues sur mesure à Yabayo. — Boutique Adjo Mode, Yabayo, Côte d&#x27;Ivoire">
+<meta name="theme-color" content="#7A2E52">
+<style>
+:root{--c:#7A2E52;--soft:rgba(122,46,82,.09);--ink:#14231C;--mut:#60736A;--line:#E6EDE9;--cream:#FFFBF3}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:#F7FAF8;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}.w{max-width:560px;margin:auto;background:#fff;min-height:100vh;box-shadow:0 0 50px rgba(0,0,0,.06);padding-bottom:86px;overflow:hidden}
+.hero{background:var(--c);background:linear-gradient(155deg,var(--c),color-mix(in srgb,var(--c) 72%,#000));color:#fff;padding:34px 22px 30px;text-align:center;position:relative}
+.hero:after{content:"";position:absolute;inset:0;background:radial-gradient(300px 140px at 90% 0%,rgba(255,255,255,.14),transparent);pointer-events:none}
+.cli-logo-emoji{width:82px;height:82px;margin:0 auto 14px;border-radius:24px;background:rgba(255,255,255,.16);border:1.5px solid rgba(255,255,255,.3);display:grid;place-items:center;font-size:42px;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.cli-logo-img{width:82px;height:82px;margin:0 auto 14px;border-radius:24px;object-fit:cover;background:#fff;border:3px solid rgba(255,255,255,.6)}
+.chip{display:inline-block;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.17);font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;margin-bottom:12px}
+h1{font-size:27px;line-height:1.15;margin:0 0 8px;letter-spacing:-.025em;font-weight:850}
+.tagline{opacity:.93;font-size:15px;margin:0 0 6px}.loc{font-size:12.5px;opacity:.8;margin:0 0 20px}
+.cta{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}
+.b{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:12px 16px;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer;border:0;transition:.18s}
+.b:hover{transform:translateY(-2px)}.b-wa{background:#fff;color:#0B3B2E}.b-gl{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35)}
+.sec{padding:30px 20px}.sec h2{font-size:19px;margin:0 0 4px;letter-spacing:-.02em;font-weight:850}
+.sec .sub{font-size:13px;color:var(--mut);margin:0 0 18px}
+.cli-item{display:flex;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
+.cli-item:last-child{border-bottom:0}
+.cli-item-ic{width:44px;height:44px;flex:none;border-radius:13px;background:var(--soft);display:grid;place-items:center;font-size:21px}
+.cli-item-txt{flex:1;min-width:0}.cli-item-txt b{display:block;font-size:14.5px}.cli-item-txt span{display:block;font-size:12px;color:var(--mut)}
+.cli-item-right{text-align:right;flex:none}.cli-item-right strong{display:block;font-size:14px;color:var(--c);white-space:nowrap}.cli-item-right small{font-size:9.5px;color:var(--mut)}
+.cli-order{display:inline-block;margin-top:5px;font-size:11.5px;font-weight:800;color:#fff;background:var(--c);padding:5px 10px;border-radius:8px}
+.cli-empty{font-size:13px;color:var(--mut);padding:16px;background:#F7FAF8;border-radius:12px}
+.about{background:var(--cream);border-radius:16px;padding:18px;font-size:14.5px;color:#33463D;line-height:1.7}
+.cli-test{background:#F7FAF8;border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:10px}
+.cli-stars{color:#F5B700;letter-spacing:2px;font-size:14px}.cli-test p{margin:6px 0 8px;font-size:14px;color:#33463D}.cli-test b{font-size:12px;color:var(--mut)}
+.cli-crow{display:flex;gap:11px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+.cli-crow span{width:32px;height:32px;border-radius:9px;background:var(--soft);display:grid;place-items:center;flex:none}
+.cli-crow:last-child{border-bottom:0}
+.cli-social{display:inline-block;margin:8px 8px 0 0;padding:9px 13px;border-radius:10px;background:var(--soft);color:var(--c);font-size:13px;font-weight:750}
+.qrbox{display:flex;gap:16px;align-items:center;background:var(--soft);border-radius:16px;padding:16px}
+.qrbox img{width:104px;height:104px;border-radius:10px;background:#fff;padding:6px}
+.qrbox b{font-size:14.5px;display:block;margin-bottom:4px}.qrbox p{font-size:12.5px;color:var(--mut);margin:0 0 9px}
+.mini{display:inline-block;padding:8px 11px;border-radius:9px;background:#fff;border:1px solid var(--line);font-size:12px;font-weight:750;margin:0 5px 5px 0;cursor:pointer}
+.cli-credit{display:block;text-align:center;font-size:12px;color:var(--mut);padding:18px;background:#F7FAF8}
+.cli-credit b{color:var(--c)}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;gap:8px;padding:10px max(12px,calc((100vw - 560px)/2 + 12px));background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+.bar a{flex:1;text-align:center;padding:13px;border-radius:11px;font-weight:800;font-size:14px}
+.bar .p{background:var(--c);color:#fff}.bar .s{background:var(--soft);color:var(--c);flex:0 0 46px}
+.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:#14231C;color:#fff;padding:10px 16px;border-radius:10px;font-size:13px;z-index:99;opacity:0;transition:.25s;pointer-events:none}
+.toast.on{opacity:1}
+@media(min-width:600px){.w{margin:24px auto;border-radius:24px;min-height:calc(100vh - 48px)}.bar{border-radius:0 0 24px 24px;position:sticky;bottom:0;max-width:560px;margin:auto}}
+</style>
+</head>
+<body>
+<div class="w">
+  <header class="hero">
+    <div class="cli-logo-emoji">👗</div>
+    <div class="chip">Mode &amp; Vêtements</div>
+    <h1>Boutique Adjo Mode</h1>
+    <p class="tagline">Pagnes, boubous et tenues sur mesure à Yabayo.</p>
+    <p class="loc">📍 Yabayo, Côte d&#x27;Ivoire</p>
+    <div class="cta">
+      <a class="b b-wa" href="https://wa.me/2250506293578?text=Bonjour%20Boutique%20Adjo%20Mode%20%21%20Je%20vous%20contacte%20depuis%20votre%20site%20web." target="_blank" rel="noopener">💬 Écrire sur WhatsApp</a>
+      <a class="b b-gl" href="tel:+2250506293578">📞 Appeler</a>
+      <button class="b b-gl" onclick="vpShare()">↗ Partager</button>
+    </div>
+  </header>
+
+  <section class="sec">
+    <h2>Nos produits & services</h2>
+    <p class="sub">Cliquez sur « Commander » pour discuter directement sur WhatsApp.</p>
+    <div class="cli-item">
+          <div class="cli-item-ic">🧣</div>
+          <div class="cli-item-txt"><b>Pagne wax 6 yards</b><span>Motifs variés, qualité garantie</span></div>
+          <div class="cli-item-right"><strong>5 000 <small>FCFA</small></strong>
+          <a class="cli-order" href="https://wa.me/2250506293578?text=Bonjour%20Boutique%20Adjo%20Mode%20%21%20Je%20souhaite%20commander%20%3A%20Pagne%20wax%206%20yards%20%285%20000%20FCFA%29." target="_blank" rel="noopener">Commander</a></div>
+        </div><div class="cli-item">
+          <div class="cli-item-ic">👘</div>
+          <div class="cli-item-txt"><b>Boubou brodé</b><span>Toutes tailles, plusieurs couleurs</span></div>
+          <div class="cli-item-right"><strong>15 000 <small>FCFA</small></strong>
+          <a class="cli-order" href="https://wa.me/2250506293578?text=Bonjour%20Boutique%20Adjo%20Mode%20%21%20Je%20souhaite%20commander%20%3A%20Boubou%20brod%C3%A9%20%2815%20000%20FCFA%29." target="_blank" rel="noopener">Commander</a></div>
+        </div><div class="cli-item">
+          <div class="cli-item-ic">👗</div>
+          <div class="cli-item-txt"><b>Ensemble complet</b><span>Haut + bas + finitions</span></div>
+          <div class="cli-item-right"><strong>25 000 <small>FCFA</small></strong>
+          <a class="cli-order" href="https://wa.me/2250506293578?text=Bonjour%20Boutique%20Adjo%20Mode%20%21%20Je%20souhaite%20commander%20%3A%20Ensemble%20complet%20%2825%20000%20FCFA%29." target="_blank" rel="noopener">Commander</a></div>
+        </div><div class="cli-item">
+          <div class="cli-item-ic">✂️</div>
+          <div class="cli-item-txt"><b>Retouche / ourlet</b><span>Prêt en 24 h</span></div>
+          <div class="cli-item-right"><strong>2 000 <small>FCFA</small></strong>
+          <a class="cli-order" href="https://wa.me/2250506293578?text=Bonjour%20Boutique%20Adjo%20Mode%20%21%20Je%20souhaite%20commander%20%3A%20Retouche%20/%20ourlet%20%282%20000%20FCFA%29." target="_blank" rel="noopener">Commander</a></div>
+        </div>
+  </section>
+
+  <section class="sec" style="padding-top:4px">
+    <h2>À propos</h2>
+    <p class="sub">Faites connaissance avec nous</p>
+    <div class="about">Boutique de mode installée à Yabayo : pagnes wax, boubous brodés, ensembles complets et retouches. Nous livrons aussi dans les villages voisins.</div>
+  </section>
+
+  <section class="sec" style="padding-top:4px"><h2>Ils nous font confiance</h2><p class="sub">Avis de nos clients</p><div class="cli-test"><div class="cli-stars">★★★★★</div><p>« Très beaux pagnes et la couturière est rapide. Je recommande ! »</p><b>— Adjoua K.</b></div><div class="cli-test"><div class="cli-stars">★★★★★</div><p>« J&#x27;ai commandé mon boubou pour la fête, il était parfait. »</p><b>— Marie Y.</b></div></section>
+  <section class="sec">
+    <h2>Nous contacter</h2>
+    <p class="sub">Nous sommes à votre disposition</p>
+    <a class="cli-crow" href="tel:+2250506293578"><span>📞</span>+225 05 06 29 35 78</a><div class="cli-crow"><span>🕐</span>Lun–Sam : 8h – 19h · Dim : 10h – 15h</div><a class="cli-crow" href="#" target="_blank" rel="noopener"><span>📍</span>Carrefour du marché, Yabayo</a>
+    <div></div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="qrbox">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOcAAADnAQMAAADfOtNjAAAABlBMVEV6LlL///8Qlec2AAABgElEQVR42u1ZMZKEMAxzjoKSJ/CUPI08jafwBEqKHbyWYu6u2hoxm8aTUGlsybIx/3BO+369xdeX4RT33WrcbYpnPtly/tinc8+vgWgEtIKwWnkFonUpeFp1Ee2RjkC0z97OwfvNbNZHhKz0GnwGouDRDF7Fqa6OiDzyA1DO4Zh4k+ZR1zrwaF0yaGtdnhC5zQLK+F/btdWbzHGPqgsRzxoUzdGBcBoE4tIJBllEWW5oRLUhzNlvhasOGBzqvV6s0kYUzNlqg/2JEMXnuKmrdyQH9ofKwOIrnU7KVdcul0D1bp4OQrYfbdU9fR3pRJ0QdkHQOsxHAEYXRIEQzlEfjFIS7M+pCvOIBOIMa0tvtIurT3zz5euuW9o74fmoevLIgkcbnpXV+9d7G0UOLg+j7CSco9wFHb0f0eWxO6lPEzBDOR9h3TBSy8X3DH27xaECwDZT35yw6vCC4hsesK/rFjWrrjtxf8AuqKWIF9f2dX0XxKxwz5Baruy9v/81bv31DXgrApbhH5i/AAAAAElFTkSuQmCC" alt="QR code">
+      <div>
+        <b>Notre carte de visite numérique</b>
+        <p>Scannez ce QR code pour ouvrir notre site et garder notre contact.</p>
+        <a class="mini" href="data:text/vcard;charset=utf-8,BEGIN%3AVCARD%0AVERSION%3A3.0%0AFN%3ABoutique%20Adjo%20Mode%0AORG%3ABoutique%20Adjo%20Mode%0ATEL%3BTYPE%3DWORK%2CVOICE%3A%2B225%2005%2006%2029%2035%2078%0ANOTE%3APagnes%2C%20boubous%20et%20tenues%20sur%20mesure%20%C3%A0%20Yabayo.%0AADR%3BTYPE%3DWORK%3A%3B%3BCarrefour%20du%20march%C3%A9%2C%20Yabayo%3BYabayo%2C%20C%C3%B4te%20d%27Ivoire%3B%3B%3B%0AURL%3Ahttp%3A%2F%2F127.0.0.1%3A8000%2Fv%2Fadjo-mode%0AEND%3AVCARD%0A">⬇ Ajouter aux contacts</a>
+        <a class="mini" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOcAAADnAQMAAADfOtNjAAAABlBMVEV6LlL///8Qlec2AAABgElEQVR42u1ZMZKEMAxzjoKSJ/CUPI08jafwBEqKHbyWYu6u2hoxm8aTUGlsybIx/3BO+369xdeX4RT33WrcbYpnPtly/tinc8+vgWgEtIKwWnkFonUpeFp1Ee2RjkC0z97OwfvNbNZHhKz0GnwGouDRDF7Fqa6OiDzyA1DO4Zh4k+ZR1zrwaF0yaGtdnhC5zQLK+F/btdWbzHGPqgsRzxoUzdGBcBoE4tIJBllEWW5oRLUhzNlvhasOGBzqvV6s0kYUzNlqg/2JEMXnuKmrdyQH9ofKwOIrnU7KVdcul0D1bp4OQrYfbdU9fR3pRJ0QdkHQOsxHAEYXRIEQzlEfjFIS7M+pCvOIBOIMa0tvtIurT3zz5euuW9o74fmoevLIgkcbnpXV+9d7G0UOLg+j7CSco9wFHb0f0eWxO6lPEzBDOR9h3TBSy8X3DH27xaECwDZT35yw6vCC4hsesK/rFjWrrjtxf8AuqKWIF9f2dX0XxKxwz5Baruy9v/81bv31DXgrApbhH5i/AAAAAElFTkSuQmCC" download="qr-adjo-mode.png">▦ Télécharger le QR</a>
+        <button class="mini" onclick="vpCopy()">⧉ Copier le lien</button>
+      </div>
+    </div>
+  </section>
+
+  <a class="cli-credit" href="#" onclick="parent.vpClose();return false;">Site créé par <b>SoutraWeb</b> ✦ Créez le vôtre</a>
+  <div class="bar">
+    <a class="p" href="https://wa.me/2250506293578?text=Bonjour%20Boutique%20Adjo%20Mode%20%21%20Je%20vous%20contacte%20depuis%20votre%20site%20web." target="_blank" rel="noopener">💬 Commander sur WhatsApp</a>
+    <a class="s" href="tel:+2250506293578">📞</a>
+  </div>
+</div>
+<div class="toast" id="toast">Lien copié ✓</div>
+<script>
+function vpToast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on')},1800)}
+function vpCopy(){var u=location.href;if(navigator.clipboard){navigator.clipboard.writeText(u).then(function(){vpToast('Lien copié ✓')},function(){vpToast(u)})}else{vpToast(u)}}
+function vpShare(){if(navigator.share){navigator.share({title:document.title,text:'Découvrez Boutique Adjo Mode',url:location.href}).catch(function(){})}else{vpCopy()}}
+</script>
+</body>
+</html>
+</template>
+<template id="demo-maquis-koffi"><!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Maquis Chez Koffi — Restauration</title>
+<meta name="description" content="Le bon attiéké-poulet de Yabayo, tous les jours. — Maquis Chez Koffi, Yabayo, Côte d&#x27;Ivoire">
+<meta name="theme-color" content="#B34A12">
+<style>
+:root{--c:#B34A12;--soft:rgba(179,74,18,.09);--ink:#14231C;--mut:#60736A;--line:#E6EDE9;--cream:#FFFBF3}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:#F7FAF8;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}.w{max-width:560px;margin:auto;background:#fff;min-height:100vh;box-shadow:0 0 50px rgba(0,0,0,.06);padding-bottom:86px;overflow:hidden}
+.hero{background:var(--c);background:linear-gradient(155deg,var(--c),color-mix(in srgb,var(--c) 72%,#000));color:#fff;padding:34px 22px 30px;text-align:center;position:relative}
+.hero:after{content:"";position:absolute;inset:0;background:radial-gradient(300px 140px at 90% 0%,rgba(255,255,255,.14),transparent);pointer-events:none}
+.cli-logo-emoji{width:82px;height:82px;margin:0 auto 14px;border-radius:24px;background:rgba(255,255,255,.16);border:1.5px solid rgba(255,255,255,.3);display:grid;place-items:center;font-size:42px;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.cli-logo-img{width:82px;height:82px;margin:0 auto 14px;border-radius:24px;object-fit:cover;background:#fff;border:3px solid rgba(255,255,255,.6)}
+.chip{display:inline-block;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.17);font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;margin-bottom:12px}
+h1{font-size:27px;line-height:1.15;margin:0 0 8px;letter-spacing:-.025em;font-weight:850}
+.tagline{opacity:.93;font-size:15px;margin:0 0 6px}.loc{font-size:12.5px;opacity:.8;margin:0 0 20px}
+.cta{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}
+.b{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:12px 16px;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer;border:0;transition:.18s}
+.b:hover{transform:translateY(-2px)}.b-wa{background:#fff;color:#0B3B2E}.b-gl{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35)}
+.sec{padding:30px 20px}.sec h2{font-size:19px;margin:0 0 4px;letter-spacing:-.02em;font-weight:850}
+.sec .sub{font-size:13px;color:var(--mut);margin:0 0 18px}
+.cli-item{display:flex;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
+.cli-item:last-child{border-bottom:0}
+.cli-item-ic{width:44px;height:44px;flex:none;border-radius:13px;background:var(--soft);display:grid;place-items:center;font-size:21px}
+.cli-item-txt{flex:1;min-width:0}.cli-item-txt b{display:block;font-size:14.5px}.cli-item-txt span{display:block;font-size:12px;color:var(--mut)}
+.cli-item-right{text-align:right;flex:none}.cli-item-right strong{display:block;font-size:14px;color:var(--c);white-space:nowrap}.cli-item-right small{font-size:9.5px;color:var(--mut)}
+.cli-order{display:inline-block;margin-top:5px;font-size:11.5px;font-weight:800;color:#fff;background:var(--c);padding:5px 10px;border-radius:8px}
+.cli-empty{font-size:13px;color:var(--mut);padding:16px;background:#F7FAF8;border-radius:12px}
+.about{background:var(--cream);border-radius:16px;padding:18px;font-size:14.5px;color:#33463D;line-height:1.7}
+.cli-test{background:#F7FAF8;border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:10px}
+.cli-stars{color:#F5B700;letter-spacing:2px;font-size:14px}.cli-test p{margin:6px 0 8px;font-size:14px;color:#33463D}.cli-test b{font-size:12px;color:var(--mut)}
+.cli-crow{display:flex;gap:11px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+.cli-crow span{width:32px;height:32px;border-radius:9px;background:var(--soft);display:grid;place-items:center;flex:none}
+.cli-crow:last-child{border-bottom:0}
+.cli-social{display:inline-block;margin:8px 8px 0 0;padding:9px 13px;border-radius:10px;background:var(--soft);color:var(--c);font-size:13px;font-weight:750}
+.qrbox{display:flex;gap:16px;align-items:center;background:var(--soft);border-radius:16px;padding:16px}
+.qrbox img{width:104px;height:104px;border-radius:10px;background:#fff;padding:6px}
+.qrbox b{font-size:14.5px;display:block;margin-bottom:4px}.qrbox p{font-size:12.5px;color:var(--mut);margin:0 0 9px}
+.mini{display:inline-block;padding:8px 11px;border-radius:9px;background:#fff;border:1px solid var(--line);font-size:12px;font-weight:750;margin:0 5px 5px 0;cursor:pointer}
+.cli-credit{display:block;text-align:center;font-size:12px;color:var(--mut);padding:18px;background:#F7FAF8}
+.cli-credit b{color:var(--c)}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;gap:8px;padding:10px max(12px,calc((100vw - 560px)/2 + 12px));background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+.bar a{flex:1;text-align:center;padding:13px;border-radius:11px;font-weight:800;font-size:14px}
+.bar .p{background:var(--c);color:#fff}.bar .s{background:var(--soft);color:var(--c);flex:0 0 46px}
+.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:#14231C;color:#fff;padding:10px 16px;border-radius:10px;font-size:13px;z-index:99;opacity:0;transition:.25s;pointer-events:none}
+.toast.on{opacity:1}
+@media(min-width:600px){.w{margin:24px auto;border-radius:24px;min-height:calc(100vh - 48px)}.bar{border-radius:0 0 24px 24px;position:sticky;bottom:0;max-width:560px;margin:auto}}
+</style>
+</head>
+<body>
+<div class="w">
+  <header class="hero">
+    <div class="cli-logo-emoji">🍲</div>
+    <div class="chip">Restauration</div>
+    <h1>Maquis Chez Koffi</h1>
+    <p class="tagline">Le bon attiéké-poulet de Yabayo, tous les jours.</p>
+    <p class="loc">📍 Yabayo, Côte d&#x27;Ivoire</p>
+    <div class="cta">
+      <a class="b b-wa" href="https://wa.me/2250506293578?text=Bonjour%20Maquis%20Chez%20Koffi%20%21%20Je%20vous%20contacte%20depuis%20votre%20site%20web." target="_blank" rel="noopener">💬 Écrire sur WhatsApp</a>
+      <a class="b b-gl" href="tel:+2250506293578">📞 Appeler</a>
+      <button class="b b-gl" onclick="vpShare()">↗ Partager</button>
+    </div>
+  </header>
+
+  <section class="sec">
+    <h2>Nos produits & services</h2>
+    <p class="sub">Cliquez sur « Commander » pour discuter directement sur WhatsApp.</p>
+    <div class="cli-item">
+          <div class="cli-item-ic">🍗</div>
+          <div class="cli-item-txt"><b>Attiéké &amp; poulet</b><span>Le classique du maquis</span></div>
+          <div class="cli-item-right"><strong>2 000 <small>FCFA</small></strong>
+          <a class="cli-order" href="https://wa.me/2250506293578?text=Bonjour%20Maquis%20Chez%20Koffi%20%21%20Je%20souhaite%20commander%20%3A%20Atti%C3%A9k%C3%A9%20%26%20poulet%20%282%20000%20FCFA%29." target="_blank" rel="noopener">Commander</a></div>
+        </div><div class="cli-item">
+          <div class="cli-item-ic">🐟</div>
+          <div class="cli-item-txt"><b>Poisson braisé</b><span>Servi avec alloco</span></div>
+          <div class="cli-item-right"><strong>3 500 <small>FCFA</small></strong>
+          <a class="cli-order" href="https://wa.me/2250506293578?text=Bonjour%20Maquis%20Chez%20Koffi%20%21%20Je%20souhaite%20commander%20%3A%20Poisson%20brais%C3%A9%20%283%20500%20FCFA%29." target="_blank" rel="noopener">Commander</a></div>
+        </div><div class="cli-item">
+          <div class="cli-item-ic">🍌</div>
+          <div class="cli-item-txt"><b>Foutou banane</b><span>Sauce graine ou arachide</span></div>
+          <div class="cli-item-right"><strong>1 500 <small>FCFA</small></strong>
+          <a class="cli-order" href="https://wa.me/2250506293578?text=Bonjour%20Maquis%20Chez%20Koffi%20%21%20Je%20souhaite%20commander%20%3A%20Foutou%20banane%20%281%20500%20FCFA%29." target="_blank" rel="noopener">Commander</a></div>
+        </div><div class="cli-item">
+          <div class="cli-item-ic">🥤</div>
+          <div class="cli-item-txt"><b>Jus de bissap</b><span>Fait maison, bien frais</span></div>
+          <div class="cli-item-right"><strong>500 <small>FCFA</small></strong>
+          <a class="cli-order" href="https://wa.me/2250506293578?text=Bonjour%20Maquis%20Chez%20Koffi%20%21%20Je%20souhaite%20commander%20%3A%20Jus%20de%20bissap%20%28500%20FCFA%29." target="_blank" rel="noopener">Commander</a></div>
+        </div>
+  </section>
+
+  <section class="sec" style="padding-top:4px">
+    <h2>À propos</h2>
+    <p class="sub">Faites connaissance avec nous</p>
+    <div class="about">Petit maquis familial au cœur de Yabayo. Plats ivoiriens préparés chaque matin avec des produits frais du marché. Possibilité de commander à emporter.</div>
+  </section>
+
+  <section class="sec" style="padding-top:4px"><h2>Ils nous font confiance</h2><p class="sub">Avis de nos clients</p><div class="cli-test"><div class="cli-stars">★★★★★</div><p>« Le meilleur attiéké du village. Et les prix sont doux ! »</p><b>— Ibrahim D.</b></div></section>
+  <section class="sec">
+    <h2>Nous contacter</h2>
+    <p class="sub">Nous sommes à votre disposition</p>
+    <a class="cli-crow" href="tel:+2250506293578"><span>📞</span>+225 05 06 29 35 78</a><div class="cli-crow"><span>🕐</span>Tous les jours : 7h – 21h</div><a class="cli-crow" href="#" target="_blank" rel="noopener"><span>📍</span>Près de la gare routière, Yabayo</a>
+    <div></div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="qrbox">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOcAAADnAQMAAADfOtNjAAAABlBMVEWzShL////R1CH6AAABfElEQVR42u1ZMbaDMAwz7dCxR+AoPdrnaByFIzAy8PCX5KRsnVFfs/glWdCTLcsh8sM64nd7ids9uIb9kQtCHeso/o5bfFrXvAWiBzEAyjrmNOzxXF4pYLMvohV0EMMCVgKIsANxozsikANWyBg5+g5ExMATBHdEqqPCkLkp67zrqGvdKnIUvLWuLdURdluMp7b7Zp1YaYig3lPtbDkCK3Mc50lTBusOK1ZQQPQQwaw77t4dVh9/byLHOpqIaLHmqPm61zSojsQRg63W4eOTvg5UMfnmkL0LY2UI1BErJxG2J4OA+SICHV3yqh9NNVsYI3qzEhII5mCVk6sLIqKSPOylfOYcSRkGlVMeqiN6ImPvXaNeyzNZcDCW1v1Ihq48Q2kdd9a+rntvObmqo24kzOcjWgdwFBHfMcPCM2AHZdAoa611/Z1BHJVhlYgb96P+usUOq6yTiPu/BbEfFUfnbOFeR/2hLlrWhbvWBdMtNUa0wTa9+9Hvv8Zlb/8BKajugCKJ3R0AAAAASUVORK5CYII=" alt="QR code">
+      <div>
+        <b>Notre carte de visite numérique</b>
+        <p>Scannez ce QR code pour ouvrir notre site et garder notre contact.</p>
+        <a class="mini" href="data:text/vcard;charset=utf-8,BEGIN%3AVCARD%0AVERSION%3A3.0%0AFN%3AMaquis%20Chez%20Koffi%0AORG%3AMaquis%20Chez%20Koffi%0ATEL%3BTYPE%3DWORK%2CVOICE%3A%2B225%2005%2006%2029%2035%2078%0ANOTE%3ALe%20bon%20atti%C3%A9k%C3%A9-poulet%20de%20Yabayo%2C%20tous%20les%20jours.%0AADR%3BTYPE%3DWORK%3A%3B%3BPr%C3%A8s%20de%20la%20gare%20routi%C3%A8re%2C%20Yabayo%3BYabayo%2C%20C%C3%B4te%20d%27Ivoire%3B%3B%3B%0AURL%3Ahttp%3A%2F%2F127.0.0.1%3A8000%2Fv%2Fmaquis-koffi%0AEND%3AVCARD%0A">⬇ Ajouter aux contacts</a>
+        <a class="mini" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOcAAADnAQMAAADfOtNjAAAABlBMVEWzShL////R1CH6AAABfElEQVR42u1ZMbaDMAwz7dCxR+AoPdrnaByFIzAy8PCX5KRsnVFfs/glWdCTLcsh8sM64nd7ids9uIb9kQtCHeso/o5bfFrXvAWiBzEAyjrmNOzxXF4pYLMvohV0EMMCVgKIsANxozsikANWyBg5+g5ExMATBHdEqqPCkLkp67zrqGvdKnIUvLWuLdURdluMp7b7Zp1YaYig3lPtbDkCK3Mc50lTBusOK1ZQQPQQwaw77t4dVh9/byLHOpqIaLHmqPm61zSojsQRg63W4eOTvg5UMfnmkL0LY2UI1BErJxG2J4OA+SICHV3yqh9NNVsYI3qzEhII5mCVk6sLIqKSPOylfOYcSRkGlVMeqiN6ImPvXaNeyzNZcDCW1v1Ihq48Q2kdd9a+rntvObmqo24kzOcjWgdwFBHfMcPCM2AHZdAoa611/Z1BHJVhlYgb96P+usUOq6yTiPu/BbEfFUfnbOFeR/2hLlrWhbvWBdMtNUa0wTa9+9Hvv8Zlb/8BKajugCKJ3R0AAAAASUVORK5CYII=" download="qr-maquis-koffi.png">▦ Télécharger le QR</a>
+        <button class="mini" onclick="vpCopy()">⧉ Copier le lien</button>
+      </div>
+    </div>
+  </section>
+
+  <a class="cli-credit" href="#" onclick="parent.vpClose();return false;">Site créé par <b>SoutraWeb</b> ✦ Créez le vôtre</a>
+  <div class="bar">
+    <a class="p" href="https://wa.me/2250506293578?text=Bonjour%20Maquis%20Chez%20Koffi%20%21%20Je%20vous%20contacte%20depuis%20votre%20site%20web." target="_blank" rel="noopener">💬 Commander sur WhatsApp</a>
+    <a class="s" href="tel:+2250506293578">📞</a>
+  </div>
+</div>
+<div class="toast" id="toast">Lien copié ✓</div>
+<script>
+function vpToast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on')},1800)}
+function vpCopy(){var u=location.href;if(navigator.clipboard){navigator.clipboard.writeText(u).then(function(){vpToast('Lien copié ✓')},function(){vpToast(u)})}else{vpToast(u)}}
+function vpShare(){if(navigator.share){navigator.share({title:document.title,text:'Découvrez Maquis Chez Koffi',url:location.href}).catch(function(){})}else{vpCopy()}}
+</script>
+</body>
+</html>
+</template>
+<template id="demo-atelier-yao"><!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Atelier Yao Couture — Artisanat &amp; Services</title>
+<meta name="description" content="Vos tenues sur mesure, coupées et cousues à Yabayo. — Atelier Yao Couture, Yabayo, Côte d&#x27;Ivoire">
+<meta name="theme-color" content="#1B4A6B">
+<style>
+:root{--c:#1B4A6B;--soft:rgba(27,74,107,.09);--ink:#14231C;--mut:#60736A;--line:#E6EDE9;--cream:#FFFBF3}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:#F7FAF8;line-height:1.55;-webkit-font-smoothing:antialiased}
+a{text-decoration:none;color:inherit}.w{max-width:560px;margin:auto;background:#fff;min-height:100vh;box-shadow:0 0 50px rgba(0,0,0,.06);padding-bottom:86px;overflow:hidden}
+.hero{background:var(--c);background:linear-gradient(155deg,var(--c),color-mix(in srgb,var(--c) 72%,#000));color:#fff;padding:34px 22px 30px;text-align:center;position:relative}
+.hero:after{content:"";position:absolute;inset:0;background:radial-gradient(300px 140px at 90% 0%,rgba(255,255,255,.14),transparent);pointer-events:none}
+.cli-logo-emoji{width:82px;height:82px;margin:0 auto 14px;border-radius:24px;background:rgba(255,255,255,.16);border:1.5px solid rgba(255,255,255,.3);display:grid;place-items:center;font-size:42px;box-shadow:0 8px 24px rgba(0,0,0,.15)}
+.cli-logo-img{width:82px;height:82px;margin:0 auto 14px;border-radius:24px;object-fit:cover;background:#fff;border:3px solid rgba(255,255,255,.6)}
+.chip{display:inline-block;padding:5px 12px;border-radius:999px;background:rgba(255,255,255,.17);font-size:11px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;margin-bottom:12px}
+h1{font-size:27px;line-height:1.15;margin:0 0 8px;letter-spacing:-.025em;font-weight:850}
+.tagline{opacity:.93;font-size:15px;margin:0 0 6px}.loc{font-size:12.5px;opacity:.8;margin:0 0 20px}
+.cta{display:flex;gap:9px;justify-content:center;flex-wrap:wrap}
+.b{display:inline-flex;align-items:center;justify-content:center;gap:7px;padding:12px 16px;border-radius:12px;font-weight:800;font-size:14px;cursor:pointer;border:0;transition:.18s}
+.b:hover{transform:translateY(-2px)}.b-wa{background:#fff;color:#0B3B2E}.b-gl{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.35)}
+.sec{padding:30px 20px}.sec h2{font-size:19px;margin:0 0 4px;letter-spacing:-.02em;font-weight:850}
+.sec .sub{font-size:13px;color:var(--mut);margin:0 0 18px}
+.cli-item{display:flex;gap:12px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line)}
+.cli-item:last-child{border-bottom:0}
+.cli-item-ic{width:44px;height:44px;flex:none;border-radius:13px;background:var(--soft);display:grid;place-items:center;font-size:21px}
+.cli-item-txt{flex:1;min-width:0}.cli-item-txt b{display:block;font-size:14.5px}.cli-item-txt span{display:block;font-size:12px;color:var(--mut)}
+.cli-item-right{text-align:right;flex:none}.cli-item-right strong{display:block;font-size:14px;color:var(--c);white-space:nowrap}.cli-item-right small{font-size:9.5px;color:var(--mut)}
+.cli-order{display:inline-block;margin-top:5px;font-size:11.5px;font-weight:800;color:#fff;background:var(--c);padding:5px 10px;border-radius:8px}
+.cli-empty{font-size:13px;color:var(--mut);padding:16px;background:#F7FAF8;border-radius:12px}
+.about{background:var(--cream);border-radius:16px;padding:18px;font-size:14.5px;color:#33463D;line-height:1.7}
+.cli-test{background:#F7FAF8;border:1px solid var(--line);border-radius:14px;padding:15px;margin-bottom:10px}
+.cli-stars{color:#F5B700;letter-spacing:2px;font-size:14px}.cli-test p{margin:6px 0 8px;font-size:14px;color:#33463D}.cli-test b{font-size:12px;color:var(--mut)}
+.cli-crow{display:flex;gap:11px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line);font-size:14px}
+.cli-crow span{width:32px;height:32px;border-radius:9px;background:var(--soft);display:grid;place-items:center;flex:none}
+.cli-crow:last-child{border-bottom:0}
+.cli-social{display:inline-block;margin:8px 8px 0 0;padding:9px 13px;border-radius:10px;background:var(--soft);color:var(--c);font-size:13px;font-weight:750}
+.qrbox{display:flex;gap:16px;align-items:center;background:var(--soft);border-radius:16px;padding:16px}
+.qrbox img{width:104px;height:104px;border-radius:10px;background:#fff;padding:6px}
+.qrbox b{font-size:14.5px;display:block;margin-bottom:4px}.qrbox p{font-size:12.5px;color:var(--mut);margin:0 0 9px}
+.mini{display:inline-block;padding:8px 11px;border-radius:9px;background:#fff;border:1px solid var(--line);font-size:12px;font-weight:750;margin:0 5px 5px 0;cursor:pointer}
+.cli-credit{display:block;text-align:center;font-size:12px;color:var(--mut);padding:18px;background:#F7FAF8}
+.cli-credit b{color:var(--c)}
+.bar{position:fixed;left:0;right:0;bottom:0;z-index:20;display:flex;gap:8px;padding:10px max(12px,calc((100vw - 560px)/2 + 12px));background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line)}
+.bar a{flex:1;text-align:center;padding:13px;border-radius:11px;font-weight:800;font-size:14px}
+.bar .p{background:var(--c);color:#fff}.bar .s{background:var(--soft);color:var(--c);flex:0 0 46px}
+.toast{position:fixed;bottom:88px;left:50%;transform:translateX(-50%);background:#14231C;color:#fff;padding:10px 16px;border-radius:10px;font-size:13px;z-index:99;opacity:0;transition:.25s;pointer-events:none}
+.toast.on{opacity:1}
+@media(min-width:600px){.w{margin:24px auto;border-radius:24px;min-height:calc(100vh - 48px)}.bar{border-radius:0 0 24px 24px;position:sticky;bottom:0;max-width:560px;margin:auto}}
+</style>
+</head>
+<body>
+<div class="w">
+  <header class="hero">
+    <div class="cli-logo-emoji">🧵</div>
+    <div class="chip">Artisanat &amp; Services</div>
+    <h1>Atelier Yao Couture</h1>
+    <p class="tagline">Vos tenues sur mesure, coupées et cousues à Yabayo.</p>
+    <p class="loc">📍 Yabayo, Côte d&#x27;Ivoire</p>
+    <div class="cta">
+      <a class="b b-wa" href="https://wa.me/2250506293578?text=Bonjour%20Atelier%20Yao%20Couture%20%21%20Je%20vous%20contacte%20depuis%20votre%20site%20web." target="_blank" rel="noopener">💬 Écrire sur WhatsApp</a>
+      <a class="b b-gl" href="tel:+2250506293578">📞 Appeler</a>
+      <button class="b b-gl" onclick="vpShare()">↗ Partager</button>
+    </div>
+  </header>
+
+  <section class="sec">
+    <h2>Nos produits & services</h2>
+    <p class="sub">Cliquez sur « Commander » pour discuter directement sur WhatsApp.</p>
+    <div class="cli-item">
+          <div class="cli-item-ic">🧵</div>
+          <div class="cli-item-txt"><b>Tenue sur mesure</b><span>Tissu non inclus</span></div>
+          <div class="cli-item-right"><strong>12 000 <small>FCFA</small></strong>
+          <a class="cli-order" href="https://wa.me/2250506293578?text=Bonjour%20Atelier%20Yao%20Couture%20%21%20Je%20souhaite%20commander%20%3A%20Tenue%20sur%20mesure%20%2812%20000%20FCFA%29." target="_blank" rel="noopener">Commander</a></div>
+        </div><div class="cli-item">
+          <div class="cli-item-ic">🎒</div>
+          <div class="cli-item-txt"><b>Uniforme scolaire</b><span>Commandes groupées acceptées</span></div>
+          <div class="cli-item-right"><strong>8 000 <small>FCFA</small></strong>
+          <a class="cli-order" href="https://wa.me/2250506293578?text=Bonjour%20Atelier%20Yao%20Couture%20%21%20Je%20souhaite%20commander%20%3A%20Uniforme%20scolaire%20%288%20000%20FCFA%29." target="_blank" rel="noopener">Commander</a></div>
+        </div><div class="cli-item">
+          <div class="cli-item-ic">✍️</div>
+          <div class="cli-item-txt"><b>Broderie personnalisée</b><span>Nom ou logo</span></div>
+          <div class="cli-item-right"><strong>3 000 <small>FCFA</small></strong>
+          <a class="cli-order" href="https://wa.me/2250506293578?text=Bonjour%20Atelier%20Yao%20Couture%20%21%20Je%20souhaite%20commander%20%3A%20Broderie%20personnalis%C3%A9e%20%283%20000%20FCFA%29." target="_blank" rel="noopener">Commander</a></div>
+        </div><div class="cli-item">
+          <div class="cli-item-ic">✂️</div>
+          <div class="cli-item-txt"><b>Retouche express</b><span>Prêt le jour même</span></div>
+          <div class="cli-item-right"><strong>1 000 <small>FCFA</small></strong>
+          <a class="cli-order" href="https://wa.me/2250506293578?text=Bonjour%20Atelier%20Yao%20Couture%20%21%20Je%20souhaite%20commander%20%3A%20Retouche%20express%20%281%20000%20FCFA%29." target="_blank" rel="noopener">Commander</a></div>
+        </div>
+  </section>
+
+  <section class="sec" style="padding-top:4px">
+    <h2>À propos</h2>
+    <p class="sub">Faites connaissance avec nous</p>
+    <div class="about">Tailleur et couturier depuis 12 ans. Uniformes scolaires, tenues de cérémonie, robes de mariée, broderie et retouches. Travail soigné, délais respectés.</div>
+  </section>
+
+  <section class="sec" style="padding-top:4px"><h2>Ils nous font confiance</h2><p class="sub">Avis de nos clients</p><div class="cli-test"><div class="cli-stars">★★★★★</div><p>« Il a fait les uniformes de mes trois enfants. Travail propre ! »</p><b>— Fatou B.</b></div></section>
+  <section class="sec">
+    <h2>Nous contacter</h2>
+    <p class="sub">Nous sommes à votre disposition</p>
+    <a class="cli-crow" href="tel:+2250506293578"><span>📞</span>+225 05 06 29 35 78</a><div class="cli-crow"><span>🕐</span>Lun–Sam : 7h30 – 18h30</div><a class="cli-crow" href="#" target="_blank" rel="noopener"><span>📍</span>Quartier Commerce, Yabayo</a>
+    <div></div>
+  </section>
+
+  <section class="sec" style="padding-top:0">
+    <div class="qrbox">
+      <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOcAAADnAQMAAADfOtNjAAAABlBMVEUbSmv///8yrF1vAAABdUlEQVR42u1ZMY6EQAzzHAUlT+ApPA2exlN4AiUFIps4M+iqrTHakVZIM5Vlx06ysC/nwu/1Ea8n4hQ7MNpSzt62yXiF+frDt/PMV0fUBzRCwYzOdodS4mrVRVQx7MnRjsnxAaM8omOwFc5RMvYCRO3DAlJHRFb8twEXUnXadZRe5xw5K/Wj7XX3cSig6qbb22XrKMhhHkUQDYElY0mVo2PYpiU5CktwRAu6cD5t1QGRsKjiqwYo7d5W/bo7vI7IkbLqAkNtFoyqMyIS9joKjBjo5SMRaScsu+0+MrVGa+atcs+wghy1AlpCfLp1RI6W1iyEbbeeaBbOI3rdkE135hHTSZijmGE5HzGbqgaFOYqm1KrO4so1aId0HQU5YLSaIwoTp/PJdqr1nISSqpvFu6B7F5SjbIivEJ/+DOsmV/45n/yegaNeW6DgBYhIDlJ1MHHVNY4yjxhLL9kFhc4QUEAT182jtgtqcjMuUKTno9//Gs9+/QAWefYmetWoNQAAAABJRU5ErkJggg==" alt="QR code">
+      <div>
+        <b>Notre carte de visite numérique</b>
+        <p>Scannez ce QR code pour ouvrir notre site et garder notre contact.</p>
+        <a class="mini" href="data:text/vcard;charset=utf-8,BEGIN%3AVCARD%0AVERSION%3A3.0%0AFN%3AAtelier%20Yao%20Couture%0AORG%3AAtelier%20Yao%20Couture%0ATEL%3BTYPE%3DWORK%2CVOICE%3A%2B225%2005%2006%2029%2035%2078%0ANOTE%3AVos%20tenues%20sur%20mesure%2C%20coup%C3%A9es%20et%20cousues%20%C3%A0%20Yabayo.%0AADR%3BTYPE%3DWORK%3A%3B%3BQuartier%20Commerce%2C%20Yabayo%3BYabayo%2C%20C%C3%B4te%20d%27Ivoire%3B%3B%3B%0AURL%3Ahttp%3A%2F%2F127.0.0.1%3A8000%2Fv%2Fatelier-yao%0AEND%3AVCARD%0A">⬇ Ajouter aux contacts</a>
+        <a class="mini" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOcAAADnAQMAAADfOtNjAAAABlBMVEUbSmv///8yrF1vAAABdUlEQVR42u1ZMY6EQAzzHAUlT+ApPA2exlN4AiUFIps4M+iqrTHakVZIM5Vlx06ysC/nwu/1Ea8n4hQ7MNpSzt62yXiF+frDt/PMV0fUBzRCwYzOdodS4mrVRVQx7MnRjsnxAaM8omOwFc5RMvYCRO3DAlJHRFb8twEXUnXadZRe5xw5K/Wj7XX3cSig6qbb22XrKMhhHkUQDYElY0mVo2PYpiU5CktwRAu6cD5t1QGRsKjiqwYo7d5W/bo7vI7IkbLqAkNtFoyqMyIS9joKjBjo5SMRaScsu+0+MrVGa+atcs+wghy1AlpCfLp1RI6W1iyEbbeeaBbOI3rdkE135hHTSZijmGE5HzGbqgaFOYqm1KrO4so1aId0HQU5YLSaIwoTp/PJdqr1nISSqpvFu6B7F5SjbIivEJ/+DOsmV/45n/yegaNeW6DgBYhIDlJ1MHHVNY4yjxhLL9kFhc4QUEAT182jtgtqcjMuUKTno9//Gs9+/QAWefYmetWoNQAAAABJRU5ErkJggg==" download="qr-atelier-yao.png">▦ Télécharger le QR</a>
+        <button class="mini" onclick="vpCopy()">⧉ Copier le lien</button>
+      </div>
+    </div>
+  </section>
+
+  <a class="cli-credit" href="#" onclick="parent.vpClose();return false;">Site créé par <b>SoutraWeb</b> ✦ Créez le vôtre</a>
+  <div class="bar">
+    <a class="p" href="https://wa.me/2250506293578?text=Bonjour%20Atelier%20Yao%20Couture%20%21%20Je%20vous%20contacte%20depuis%20votre%20site%20web." target="_blank" rel="noopener">💬 Commander sur WhatsApp</a>
+    <a class="s" href="tel:+2250506293578">📞</a>
+  </div>
+</div>
+<div class="toast" id="toast">Lien copié ✓</div>
+<script>
+function vpToast(m){var t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(function(){t.classList.remove('on')},1800)}
+function vpCopy(){var u=location.href;if(navigator.clipboard){navigator.clipboard.writeText(u).then(function(){vpToast('Lien copié ✓')},function(){vpToast(u)})}else{vpToast(u)}}
+function vpShare(){if(navigator.share){navigator.share({title:document.title,text:'Découvrez Atelier Yao Couture',url:location.href}).catch(function(){})}else{vpCopy()}}
+</script>
+</body>
+</html>
+</template>
+<div id="vp-modal" role="dialog" aria-label="Aperçu d'un site client">
+  <div id="vp-modal-bar">
+    <span>👁 Aperçu d'un site client — c'est exactement ce que reçoit ton client</span>
+    <button onclick="vpClose()" aria-label="Fermer">✕ Fermer</button>
+  </div>
+  <iframe id="vp-frame" title="Site client"></iframe>
+</div>
+<style>
+#vp-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(6,26,19,.82);padding:12px}
+#vp-modal.on{display:flex;flex-direction:column}
+#vp-modal-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;color:#fff;font-size:13px;font-weight:700;padding:6px 4px 12px;flex-wrap:wrap}
+#vp-modal-bar button{background:#F5B700;color:#241B00;border:0;border-radius:10px;padding:10px 16px;font-weight:800;cursor:pointer}
+#vp-frame{flex:1;width:min(560px,100%);margin:auto;border:0;border-radius:20px;background:#fff;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+</style>
+<script>
+function vpOpen(slug){
+  var t=document.getElementById('demo-'+slug);
+  if(!t) return;
+  document.getElementById('vp-frame').srcdoc=t.innerHTML;
+  document.getElementById('vp-modal').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function vpClose(){
+  document.getElementById('vp-modal').classList.remove('on');
+  document.getElementById('vp-frame').srcdoc='';
+  document.body.style.overflow='';
+}
+document.addEventListener('keydown',function(e){if(e.key==='Escape')vpClose()});
+</script>
+
+</body>
+</html>
